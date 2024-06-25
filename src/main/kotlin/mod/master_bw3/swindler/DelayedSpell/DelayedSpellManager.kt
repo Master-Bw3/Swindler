@@ -19,13 +19,10 @@ class DelayedSpellManager() {
     }
 
     fun triggerSpells(caster: ServerPlayerEntity) {
-        for (spell in spells) {
-            spell.triggerTick -= 1
+        spells.forEach { it.triggerTick -= 1 }
 
-            if (spell.triggerTick <= 0) {
-                spell.spell.runSafely(PlayerSpellContext(caster, EquipmentSlot.MAINHAND))
-            }
-        }
+        val spellsToRun = spells.filter { it.triggerTick <= 0 }
+        spellsToRun.forEach {it.spell.runSafely(PlayerSpellContext(caster, EquipmentSlot.MAINHAND))}
 
         spells = spells.filter { it.triggerTick > 0 }.toMutableList()
     }
