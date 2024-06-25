@@ -8,9 +8,9 @@ import dev.enjarai.trickster.spell.tricks.Trick
 import dev.enjarai.trickster.spell.tricks.blunder.BlunderException
 
 
-object One : Trick(Pattern.of(6, 7, 4, 1)) {
+class NumberConstant(private val number: Double, pattern: Pattern) : Trick(pattern) {
     @Throws(BlunderException::class)
     override fun activate(ctx: SpellContext, fragments: List<Fragment>): Fragment {
-        return NumberFragment(1.0)
+        return NumberFragment(number)
     }
 }
