@@ -36,7 +36,7 @@ data class DelayedSpell(val spell: SpellPart, var triggerTick: Long, val caster:
             var spell = SpellPart()
 
             if (nbt.contains("$MOD_ID:spell")) {
-                SpellPart.CODEC.decode(NbtOps.INSTANCE, nbt["spell"])
+                SpellPart.CODEC.decode(NbtOps.INSTANCE, nbt["$MOD_ID:spell"])
                     .resultOrPartial { err: String? ->
                         Swindler.logger.warn(
                             "Failed to load spell",

@@ -31,10 +31,17 @@ object Delay : Trick(Pattern.of(0, 6, 4, 2, 8, 4, 0)) {
         val spell = expectInput(fragments, FragmentType.SPELL_PART, 0)
         val delay = expectInput(fragments, FragmentType.NUMBER, 1)
 
-        if (ctx.player.isPresent)
-            DelayedSpellManager.add(spell, delay.number.toLong() * ctx.world.server.tickManager.tickRate.toLong(), ctx.player.get(), ctx.world)
-        else
+        if (ctx.player.isPresent) {
+            val delayedSpellsState = DelayedSpellManager.getServerState(ctx.world.server)
+            delayedSpellsState.add(
+                spell,
+                delay.number.toLong() * ctx.world.server.tickManager.tickRate.toLong(),
+                ctx.player.get(),
+                ctx.world
+            )
+        } else {
             throw NoPlayerBlunder(this)
+        }
 
         return VoidFragment.INSTANCE
     }

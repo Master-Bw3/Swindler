@@ -54,6 +54,13 @@ loom {
 		}
 	}
 
+	runs {
+		client {
+			// Randomly Generated UUID
+			programArgs(["--username", "Dev", "--uuid", "a002f105-8cc2-4325-8d8e-f197ae6f5322"])
+		}
+	}
+
 }
 
 dependencies {
