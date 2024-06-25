@@ -11,7 +11,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import java.util.UUID
 
-data class DelayedSpell(val spell: SpellPart, var triggerTick: Long, val caster: UUID?) {
+data class DelayedSpell(val spell: SpellPart, var triggerTick: Long) {
     fun serialize(): NbtCompound {
         val nbt = NbtCompound()
 
@@ -25,8 +25,6 @@ data class DelayedSpell(val spell: SpellPart, var triggerTick: Long, val caster:
             .ifPresent { element: NbtElement? -> nbt.put("$MOD_ID:spell", element) }
 
         nbt.putLong("$MOD_ID:trigger_tick", triggerTick)
-
-        nbt.putUuid("$MOD_ID:caster", caster)
 
         return nbt
     }
@@ -50,13 +48,7 @@ data class DelayedSpell(val spell: SpellPart, var triggerTick: Long, val caster:
 
             val triggerTick = nbt.getLong("$MOD_ID:trigger_tick")
 
-            val caster = try {
-                nbt.getUuid("$MOD_ID:caster")
-            } catch (e: Exception) {
-                null
-            }
-
-            return DelayedSpell(spell, triggerTick, caster)
+            return DelayedSpell(spell, triggerTick)
         }
     }
 }

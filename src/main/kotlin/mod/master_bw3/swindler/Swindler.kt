@@ -1,6 +1,7 @@
 package mod.master_bw3.swindler
 
 import mod.master_bw3.swindler.DelayedSpell.DelayedSpellManager
+import mod.master_bw3.swindler.DelayedSpell.DelayedSpellStateSaverAndLoader
 import mod.master_bw3.swindler.registry.Tricks
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -27,10 +28,14 @@ object Swindler : ModInitializer {
 	}
 
 	private fun initListeners() {
-		ServerTickEvents.START_SERVER_TICK.register {
-			val delayedSpellsState = DelayedSpellManager.getServerState(it.overworld.server)
+		ServerTickEvents.START_SERVER_TICK.register { server ->
+			val delayedSpellsState = DelayedSpellStateSaverAndLoader.getServerState(server)
 
-			delayedSpellsState.triggerSpells(it)
+			server.playerManager.playerList.forEach { player ->
+				val delayedSpells = delayedSpellsState.getPlayerState(player)
+
+				delayedSpells.triggerSpells(server, player)
+			}
 		}
 	}
 }
