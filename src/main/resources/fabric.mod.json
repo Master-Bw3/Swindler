@@ -1,0 +1,52 @@
+{
+	"schemaVersion": 1,
+	"id": "swindler",
+	"version": "${version}",
+	"name": "Swindler",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/swindler/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "mod.master_bw3.swindler.Swindler",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "mod.master_bw3.swindler.SwindlerClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"swindler.mixins.json",
+		{
+			"config": "swindler.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*",
+		"trickster": "1.0.3",
+		"owo": "*",
+		"lavender": "*",
+		"cicada": ">=0.8.0"
+	},
+	"suggests": {
+		"modmenu": "11.0.1"
+	}
+}
