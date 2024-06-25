@@ -1,4 +1,4 @@
-package mod.master_bw3.swindler.spell.tricks
+package mod.master_bw3.swindler.registry
 
 import dev.enjarai.trickster.spell.Pattern
 import dev.enjarai.trickster.spell.tricks.Trick
