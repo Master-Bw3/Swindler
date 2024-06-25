@@ -27,7 +27,6 @@ object Delay : Trick(Pattern.of(0, 6, 4, 2, 8, 4, 0)) {
 
     @Throws(BlunderException::class)
     override fun activate(ctx: SpellContext, fragments: List<Fragment?>?): Fragment {
-        Swindler.logger.info("delay")
         val spell = expectInput(fragments, FragmentType.SPELL_PART, 0)
         val delay = expectInput(fragments, FragmentType.NUMBER, 1)
 

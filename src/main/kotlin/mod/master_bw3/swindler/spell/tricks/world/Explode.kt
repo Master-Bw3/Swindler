@@ -20,7 +20,6 @@ object Explode : Trick(Pattern.of(0, 1, 2, 5, 8, 7, 6, 3, 0)) {
     override fun activate(ctx: SpellContext, fragments: List<Fragment>): Fragment {
         val pos = expectInput(fragments, FragmentType.VECTOR, 0)
         val strength = expectInput(fragments, FragmentType.NUMBER, 1).number
-        Swindler.logger.info("test")
 
         val clampedStrength = Math.clamp(strength, 0.0, 10.0)
         val blockPos = pos.toBlockPos()

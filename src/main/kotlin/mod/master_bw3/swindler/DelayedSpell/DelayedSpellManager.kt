@@ -29,13 +29,9 @@ class DelayedSpellManager() : PersistentState() {
     fun triggerSpells(server: MinecraftServer) {
         for (spell in spells) {
             if (spell.triggerTick <= server.overworld.time) {
-                Swindler.logger.info("found spell")
-                Swindler.logger.info(spell.toString())
 
                 val caster = server.playerManager.playerList.find { it.uuid.equals(spell.caster) }
                 if (caster != null) {
-                    Swindler.logger.info("cast spell")
-                    Swindler.logger.info(caster.world.asString())
                     spell.spell.runSafely(PlayerSpellContext(caster, EquipmentSlot.MAINHAND))
                 }
 
