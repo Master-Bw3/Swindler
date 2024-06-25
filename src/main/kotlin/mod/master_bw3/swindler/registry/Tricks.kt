@@ -21,6 +21,7 @@ object Tricks {
     val GET_CASTER: Trick = register("get_caster", GetCaster)
     val GET_LOOK: Trick = register("get_entity_look", GetLook)
     val GET_POS: Trick = register("get_entity_pos", GetPos)
+    val DELAY: Trick = register("delay", Delay)
 
 
     // Raycast
