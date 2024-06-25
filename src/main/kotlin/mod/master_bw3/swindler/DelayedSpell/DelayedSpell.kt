@@ -7,9 +7,6 @@ import mod.master_bw3.swindler.Swindler.MOD_ID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtOps
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Hand
-import java.util.UUID
 
 data class DelayedSpell(val spell: SpellPart, var triggerTick: Long) {
     fun serialize(): NbtCompound {

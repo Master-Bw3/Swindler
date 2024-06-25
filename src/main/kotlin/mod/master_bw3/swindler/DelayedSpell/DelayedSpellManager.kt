@@ -14,18 +14,19 @@ class DelayedSpellManager() {
 
     var shouldClearOnWrite = false
 
-    fun add(spell: SpellPart, delay: Long, world: ServerWorld) {
-        spells.add(DelayedSpell(spell, world.time + delay))
+    fun add(spell: SpellPart, delay: Long) {
+        spells.add(DelayedSpell(spell, delay))
     }
 
-    fun triggerSpells(server: MinecraftServer, caster: ServerPlayerEntity) {
+    fun triggerSpells(caster: ServerPlayerEntity) {
         for (spell in spells) {
-            if (spell.triggerTick <= server.overworld.time) {
-                spell.spell.runSafely(PlayerSpellContext(caster, EquipmentSlot.MAINHAND))
+            spell.triggerTick -= 1
 
+            if (spell.triggerTick <= 0) {
+                spell.spell.runSafely(PlayerSpellContext(caster, EquipmentSlot.MAINHAND))
             }
         }
 
-        spells = spells.filter { it.triggerTick > server.overworld.time }.toMutableList()
+        spells = spells.filter { it.triggerTick > 0 }.toMutableList()
     }
 }

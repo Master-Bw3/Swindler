@@ -34,7 +34,7 @@ object Swindler : ModInitializer {
 			server.playerManager.playerList.forEach { player ->
 				val delayedSpells = delayedSpellsState.getPlayerState(player)
 
-				delayedSpells.triggerSpells(server, player)
+				delayedSpells.triggerSpells(player)
 			}
 		}
 	}

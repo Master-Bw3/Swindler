@@ -38,7 +38,6 @@ object Delay : Trick(Pattern.of(0, 6, 4, 2, 8, 4, 0)) {
             delayedSpellsState.add(
                 spell,
                 delay.number.toLong() * ctx.world.server.tickManager.tickRate.toLong(),
-                ctx.world
             )
         } else {
             throw NoPlayerBlunder(this)
