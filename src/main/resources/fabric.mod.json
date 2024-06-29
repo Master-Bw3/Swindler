@@ -5,7 +5,7 @@
 	"name": "Swindler",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"Master_Bw2"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -26,6 +26,12 @@
 				"value": "mod.master_bw3.swindler.SwindlerClient",
 				"adapter": "kotlin"
 			}
+		],
+		"cardinal-components": [
+			{
+				"value": "mod.master_bw3.swindler.SwindlerCardinalComponents",
+				"adapter": "kotlin"
+			}
 		]
 	},
 	"mixins": [
@@ -35,6 +41,7 @@
 			"environment": "client"
 		}
 	],
+	"accessWidener" : "swindler.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.11",
 		"minecraft": "~1.21",
@@ -48,5 +55,11 @@
 	},
 	"suggests": {
 		"modmenu": "11.0.1"
+	},
+	"custom": {
+		"cardinal-components": [
+			"swindler:spell",
+			"swindler:effect_id"
+		]
 	}
 }

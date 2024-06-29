@@ -1,10 +1,10 @@
 package mod.master_bw3.swindler
 
-import mod.master_bw3.swindler.DelayedSpell.DelayedSpellManager
-import mod.master_bw3.swindler.DelayedSpell.DelayedSpellStateSaverAndLoader
+import mod.master_bw3.swindler.delayedSpell.DelayedSpellStateSaverAndLoader
+import mod.master_bw3.swindler.registry.Entities
+import mod.master_bw3.swindler.registry.SpellEmitterEffects
 import mod.master_bw3.swindler.registry.Tricks
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
@@ -23,7 +23,9 @@ object Swindler : ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-		Tricks.register();
+		Entities.register()
+		SpellEmitterEffects.register()
+		Tricks.register()
 		initListeners()
 	}
 
