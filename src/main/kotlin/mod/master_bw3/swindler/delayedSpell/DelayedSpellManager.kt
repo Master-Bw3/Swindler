@@ -1,11 +1,9 @@
-package mod.master_bw3.swindler.DelayedSpell
+package mod.master_bw3.swindler.delayedSpell
 
 import dev.enjarai.trickster.spell.PlayerSpellContext
 import dev.enjarai.trickster.spell.SpellPart
 import net.minecraft.entity.EquipmentSlot
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
 
 
 class DelayedSpellManager() {
@@ -14,8 +12,12 @@ class DelayedSpellManager() {
 
     var shouldClearOnWrite = false
 
-    fun add(spell: SpellPart, delay: Long) {
+    fun addSpell(spell: SpellPart, delay: Long) {
         spells.add(DelayedSpell(spell, delay))
+    }
+
+    fun removeLastSpell() {
+        if (spells.isNotEmpty()) spells.removeLast()
     }
 
     fun triggerSpells(caster: ServerPlayerEntity) {

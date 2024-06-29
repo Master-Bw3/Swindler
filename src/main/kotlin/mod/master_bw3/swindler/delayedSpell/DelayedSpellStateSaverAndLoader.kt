@@ -1,6 +1,5 @@
-package mod.master_bw3.swindler.DelayedSpell
+package mod.master_bw3.swindler.delayedSpell
 
-import io.wispforest.owo.offline.DataSavedEvents.PlayerData
 import mod.master_bw3.swindler.Swindler.MOD_ID
 import net.minecraft.entity.LivingEntity
 import net.minecraft.nbt.NbtCompound

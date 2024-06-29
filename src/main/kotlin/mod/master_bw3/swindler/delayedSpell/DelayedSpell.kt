@@ -1,4 +1,4 @@
-package mod.master_bw3.swindler.DelayedSpell
+package mod.master_bw3.swindler.delayedSpell
 
 import com.mojang.datafixers.util.Pair
 import dev.enjarai.trickster.spell.SpellPart
