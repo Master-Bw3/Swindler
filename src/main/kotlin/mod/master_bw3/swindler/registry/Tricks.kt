@@ -7,7 +7,8 @@ import mod.master_bw3.swindler.Swindler
 import mod.master_bw3.swindler.spell.tricks.basic.*
 import mod.master_bw3.swindler.spell.tricks.delay.CancelDelay
 import mod.master_bw3.swindler.spell.tricks.delay.Delay
-import mod.master_bw3.swindler.spell.tricks.world.Beam
+import mod.master_bw3.swindler.spell.tricks.spellEmitter.Beam
+import mod.master_bw3.swindler.spell.tricks.spellEmitter.CreateSpellEmitter
 import mod.master_bw3.swindler.spell.tricks.world.Explode
 import net.minecraft.registry.Registry
 
@@ -34,6 +35,9 @@ object Tricks {
 
     // World
     val EXPLODE: Trick = register("explode", Explode)
+
+    // Spell Emitter
+    val CREATE_EMITTER: Trick = register("create_spell_emitter", CreateSpellEmitter)
     val BEAM: Trick = register("beam", Beam)
 
 

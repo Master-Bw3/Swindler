@@ -37,6 +37,8 @@ class SpellEmitterEntity(type: EntityType<SpellEmitterEntity>, world: World) : E
 
     var lifetime: Int = 0
 
+    constructor(world: World) : this(Entities.SPELL_EMITTER_ENTITY, world)
+
     constructor(world: World, spell: SpellPart, lifetime: Int, effectId: Identifier) : this(Entities.SPELL_EMITTER_ENTITY, world) {
         this.spell = spell
         this.lifetime = lifetime
