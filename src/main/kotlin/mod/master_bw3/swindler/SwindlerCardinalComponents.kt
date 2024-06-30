@@ -1,6 +1,6 @@
 package mod.master_bw3.swindler
 
-import mod.master_bw3.swindler.entity.EffectIdComponent
+import mod.master_bw3.swindler.entity.SpellEffectComponent
 import mod.master_bw3.swindler.entity.SpellComponent
 import mod.master_bw3.swindler.entity.SpellEmitterEntity
 import org.ladysnake.cca.api.v3.component.ComponentKey
@@ -16,9 +16,9 @@ object SwindlerCardinalComponents : EntityComponentInitializer {
         SpellComponent::class.java
     )
 
-    val EFFECT_ID: ComponentKey<EffectIdComponent> = ComponentRegistry.getOrCreate(
-        Swindler.id("effect_id"),
-        EffectIdComponent::class.java
+    val SPELL_EFFECT: ComponentKey<SpellEffectComponent> = ComponentRegistry.getOrCreate(
+        Swindler.id("spell_effect"),
+        SpellEffectComponent::class.java
     )
 
     override fun registerEntityComponentFactories(registry: EntityComponentFactoryRegistry) {
@@ -29,8 +29,8 @@ object SwindlerCardinalComponents : EntityComponentInitializer {
 
         registry.registerFor(
             SpellEmitterEntity::class.java,
-            EFFECT_ID
-        ) { EffectIdComponent() }
+            SPELL_EFFECT
+        ) { SpellEffectComponent() }
     }
 
 }

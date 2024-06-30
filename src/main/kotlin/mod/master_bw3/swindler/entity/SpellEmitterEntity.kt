@@ -3,19 +3,14 @@ package mod.master_bw3.swindler.entity
 import com.mojang.datafixers.util.Pair
 import dev.enjarai.trickster.spell.SpellPart
 import mod.master_bw3.swindler.Swindler
-import mod.master_bw3.swindler.SwindlerCardinalComponents.EFFECT_ID
+import mod.master_bw3.swindler.SwindlerCardinalComponents.SPELL_EFFECT
 import mod.master_bw3.swindler.SwindlerCardinalComponents.SPELL
 import mod.master_bw3.swindler.registry.Entities
 import mod.master_bw3.swindler.registry.SpellEmitterEffects
 import mod.master_bw3.swindler.spell.spellEmitterEffects.SpellEmitterEffect
-import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.TntEntity
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandler
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtOps
@@ -29,17 +24,32 @@ class SpellEmitterEntity(type: EntityType<SpellEmitterEntity>, world: World) : E
 
     var spell: SpellPart
         get() = SPELL.get(this).spell
-        set(value) { SPELL.get(this).spell = value; SPELL.sync(this)}
+        set(value) {
+            SPELL.get(this).spell = value; SPELL.sync(this)
+        }
 
     var effectId: Identifier
-        get() = EFFECT_ID.get(this).effectId
-        set(value) { EFFECT_ID.get(this).effectId = value; EFFECT_ID.sync(this)}
+        get() = SPELL_EFFECT.get(this).effectId
+        set(value) {
+            SPELL_EFFECT.get(this).effectId = value; SPELL_EFFECT.sync(this)
+        }
+
+    var effectData: NbtCompound
+        get() = SPELL_EFFECT.get(this).effectData
+        set(value) {
+            SPELL_EFFECT.get(this).effectData = value; SPELL_EFFECT.sync(this)
+        }
 
     var lifetime: Int = 0
 
     constructor(world: World) : this(Entities.SPELL_EMITTER_ENTITY, world)
 
-    constructor(world: World, spell: SpellPart, lifetime: Int, effectId: Identifier) : this(Entities.SPELL_EMITTER_ENTITY, world) {
+    constructor(
+        world: World,
+        spell: SpellPart,
+        lifetime: Int,
+        effectId: Identifier
+    ) : this(Entities.SPELL_EMITTER_ENTITY, world) {
         this.spell = spell
         this.lifetime = lifetime
         this.effectId = effectId
@@ -55,8 +65,7 @@ class SpellEmitterEntity(type: EntityType<SpellEmitterEntity>, world: World) : E
     override fun writeCustomDataToNbt(nbt: NbtCompound) {}
 
     override fun tick() {
-        Swindler.logger.info(effectId.toString())
-        getEffect()?.onTickEffect(this)
+        getEffect()?.onTickEffect(this, effectData)
     }
 
 }
@@ -71,16 +80,19 @@ class SpellComponent : Component, AutoSyncedComponent {
                 .ifPresent { pair: Pair<SpellPart, NbtElement> ->
                     spell = pair.first
                 }
-        }    }
+        }
+    }
 
     override fun writeToNbt(tag: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         SpellPart.CODEC.encodeStart(NbtOps.INSTANCE, spell)
             .resultOrPartial()
-            .ifPresent { element: NbtElement? -> tag.put(Swindler.id("spell").toString(), element) }    }
+            .ifPresent { element: NbtElement? -> tag.put(Swindler.id("spell").toString(), element) }
+    }
 }
 
-class EffectIdComponent : Component, AutoSyncedComponent {
+class SpellEffectComponent : Component, AutoSyncedComponent {
     var effectId: Identifier = Swindler.id("none")
+    var effectData: NbtCompound = NbtCompound()
 
     override fun readFromNbt(tag: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         if (tag.contains(Swindler.id("effect_id").toString())) {
@@ -89,10 +101,16 @@ class EffectIdComponent : Component, AutoSyncedComponent {
                 .ifPresent { pair: Pair<Identifier, NbtElement> ->
                     effectId = pair.first
                 }
-        }    }
+        }
+        if (tag.contains(Swindler.id("data").toString())) {
+            effectData = tag.getCompound(Swindler.id("data").toString())
+        }
+    }
 
     override fun writeToNbt(tag: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         Identifier.CODEC.encodeStart(NbtOps.INSTANCE, effectId)
             .resultOrPartial()
-            .ifPresent { element: NbtElement? -> tag.put(Swindler.id("effect_id").toString(), element) }    }
+            .ifPresent { element: NbtElement? -> tag.put(Swindler.id("effect_id").toString(), element) }
+        tag.put(Swindler.id("data").toString(), effectData)
+    }
 }

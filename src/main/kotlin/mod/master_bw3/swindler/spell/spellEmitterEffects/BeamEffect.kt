@@ -2,6 +2,7 @@ package mod.master_bw3.swindler.spell.spellEmitterEffects
 
 import mod.master_bw3.swindler.Swindler
 import net.minecraft.entity.Entity
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.DustParticleEffect
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
@@ -10,8 +11,14 @@ import net.minecraft.world.World
 import java.util.function.Predicate
 
 class BeamEffect : SpellEmitterEffect() {
-    override fun onTickEffect(entity: Entity) {
-        val distance = 5
+    override fun onTickEffect(entity: Entity, effectData: NbtCompound) {
+        val distance = if (effectData.contains(Swindler.id("length").toString())) {
+            effectData.getDouble(Swindler.id("length").toString())
+        } else 1.0
+
+        val strength = if (effectData.contains(Swindler.id("strength").toString())) {
+            effectData.getDouble(Swindler.id("strength").toString())
+        } else 1.0
 
 
         if (entity.world.isClient) {
@@ -35,7 +42,7 @@ class BeamEffect : SpellEmitterEffect() {
 
         val hitResult = getEntityHitResult(entity, entity.world, entity.eyePos, endPos, Box(entity.eyePos, endPos), {true},1_000_000.0)
 
-        hitResult?.entity?.damage(entity.damageSources.generic(), 0.5f)
+        hitResult?.entity?.damage(entity.damageSources.generic(), strength.toFloat() * 0.5f)
     }
 
     fun getEntityHitResult(

@@ -5,7 +5,7 @@
 	"name": "Swindler",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Master_Bw2"
+		"Master_Bw3"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -59,7 +59,7 @@
 	"custom": {
 		"cardinal-components": [
 			"swindler:spell",
-			"swindler:effect_id"
+			"swindler:spell_effect"
 		]
 	}
 }
