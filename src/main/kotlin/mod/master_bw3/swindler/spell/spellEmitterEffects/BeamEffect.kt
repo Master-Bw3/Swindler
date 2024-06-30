@@ -6,7 +6,6 @@ import mod.master_bw3.swindler.entity.SpellEmitterEntity
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.DustParticleEffect
-import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -51,51 +50,11 @@ class BeamEffect : SpellEmitterEffect() {
 
         val endPos = emitter.eyePos.add(emitter.rotationVector.multiply(distance.toDouble()))
 
-        val hitResult = getEntityHitResult(emitter, emitter.world, emitter.eyePos, endPos, Box(emitter.eyePos, endPos), {true},1_000_000.0)
+        val hitEntities = emitter.world.getOtherEntities(emitter, Box(emitter.eyePos, endPos)) { true }
 
-        hitResult?.entity?.damage(emitter.damageSources.generic(), strength.toFloat() * 0.5f)
+        hitEntities.forEach{ it.damage(emitter.damageSources.generic(), strength.toFloat() * 0.5f) }
 
         effectData.putInt(Swindler.id("duration").toString(), duration - 1)
         return effectData
-    }
-
-    fun getEntityHitResult(
-        entity: Entity?, world: World, startPos: Vec3d, endPos: Vec3d,
-        aabb: Box, isValid: Predicate<Entity>, maxSqrLength: Double): EntityHitResult? {
-        var sqrLength = maxSqrLength
-        var hitEntity: Entity? = null
-        var hitPos: Vec3d? = null
-        val allValidInAABB: Iterator<*> = world.getOtherEntities(entity, aabb, isValid).iterator()
-
-        while (allValidInAABB.hasNext()) {
-            val nextEntity = allValidInAABB.next() as Entity
-            val hitBox = nextEntity.boundingBox.expand(nextEntity.targetingMargin.toDouble())
-            val overlapBox = hitBox.raycast(startPos, endPos)
-            if (hitBox.contains(startPos)) {
-                if (sqrLength >= 0.0) {
-                    hitEntity = nextEntity
-                    hitPos = overlapBox.orElse(startPos)
-                    sqrLength = 0.0
-                }
-            } else if (overlapBox.isPresent) {
-                val maybePos = overlapBox.get()
-                val sqrDist = startPos.squaredDistanceTo(maybePos)
-                if (sqrDist < sqrLength || sqrLength == 0.0) {
-                    if (nextEntity.rootVehicle === entity?.rootVehicle) {
-                        if (sqrLength == 0.0) {
-                            hitEntity = nextEntity
-                            hitPos = maybePos
-                        }
-                    } else {
-                        hitEntity = nextEntity
-                        hitPos = maybePos
-                        sqrLength = sqrDist
-                    }
-                }
-            }
-        }
-        return if (hitEntity == null) {
-            null
-        } else EntityHitResult(hitEntity, hitPos!!) // hitEntity != null <=> hitPos != null
     }
 }
