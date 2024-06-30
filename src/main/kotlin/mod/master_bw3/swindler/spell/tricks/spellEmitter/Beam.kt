@@ -22,6 +22,7 @@ object Beam : Trick(Pattern.of(3, 4, 5)) {
         val entity = ctx.world.getEntity(expectInput(fragments, FragmentType.ENTITY, 0).uuid)
         val length = expectInput(fragments, FragmentType.NUMBER, 1).number
         val strength = expectInput(fragments, FragmentType.NUMBER, 2).number
+        val duration = expectInput(fragments, FragmentType.NUMBER, 3).number
 
         val displaySpell = SpellPart(PatternGlyph(3, 4, 5), fragments.map { Optional.of(SpellPart(it, listOf())) })
 
@@ -33,6 +34,7 @@ object Beam : Trick(Pattern.of(3, 4, 5)) {
                 val data = NbtCompound()
                 data.putDouble(Swindler.id("length").toString(), length)
                 data.putDouble(Swindler.id("strength").toString(), strength)
+                data.putInt(Swindler.id("duration").toString(), (duration * ctx.world.tickManager.tickRate).toInt())
                 data
             }
         } else throw NoPlayerBlunder(this) //todo: use proper blunder

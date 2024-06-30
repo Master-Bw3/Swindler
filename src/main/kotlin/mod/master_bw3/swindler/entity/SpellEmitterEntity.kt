@@ -65,7 +65,7 @@ class SpellEmitterEntity(type: EntityType<SpellEmitterEntity>, world: World) : E
     override fun writeCustomDataToNbt(nbt: NbtCompound) {}
 
     override fun tick() {
-        getEffect()?.onTickEffect(this, effectData)
+        effectData = getEffect()?.onTickEffect(this, effectData) ?: effectData
     }
 
 }
