@@ -48,7 +48,7 @@
 		"java": ">=21",
 		"fabric-api": "*",
 		"fabric-language-kotlin": "*",
-		"trickster": "1.0.3",
+		"trickster": ">=1.0.3",
 		"owo": "*",
 		"lavender": "*",
 		"cicada": ">=0.8.0"
